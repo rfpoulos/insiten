@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Google",
+        "status": "declined",
+        "description": "Major Search Engine and Other",
+        "public": true,
+        "contacts": [
+            {
+                "name": "Sundar Pichai",
+                "primary": true,
+                "phone": "1-123-456-7890",
+                "email": "spichai@gmail.com",
+                "role": "CEO"
+            },
+            {
+                "name": "Ruth Porat",
+                "primary": false,
+                "phone": "1-123-847-7890",
+                "email": "rporat@gmail.com",
+                "role": "CFO"
+            }
+        ],
+        "headquarters": {
+            "address": "1600 Amphitheatre Parkway",
+            "city": "Mountain View",
+            "state": "CA",
+            "country": "U.S.",
+            "lat": 32.798240,
+            "lng": -116.985360
+        },
+        "founded": "1998-9-4",
+        "employees": 85050
+    }
+]

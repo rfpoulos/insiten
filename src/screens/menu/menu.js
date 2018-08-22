@@ -10,9 +10,9 @@ import {
     container,
     nav,
     li,
-    hamburger
 } from './menu-style';
-import Hamburger from '../../images/bars-solid.svg'
+import Hamburger from '../../images/bars-solid.svg';
+import Icon from '../../components/svg-icon/medium/medium';
 
 export let Menu = ({ 
     history,
@@ -20,7 +20,7 @@ export let Menu = ({
     menuOpen,
 }) =>
     <nav onClick={ handleToggle } style={ container }>
-        <img style={ hamburger }
+        <Icon
             src={ Hamburger } 
             onClick={ handleToggle } 
             alt="Open menu / user image"
