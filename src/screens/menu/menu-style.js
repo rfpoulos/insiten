@@ -25,8 +25,3 @@ export let li = ({
     fontSize: '2rem',
     paddingLeft: '.25rem',
 });
-
-export let hamburger = ({
-    width: '1.5rem',
-    height: '1.5rem',
-});
