@@ -4,11 +4,15 @@ import {
   Route, 
   Switch,
 } from 'react-router-dom';
+import Menu from './screens/menu/menu';
 
 export default () => 
   <Router>
     <div>
-      <Switch>
-      </Switch>
+      <Menu />
+      <div>
+        <Switch>
+        </Switch>
+      </div>
     </div>
   </Router>
