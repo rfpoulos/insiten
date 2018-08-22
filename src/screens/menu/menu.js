@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { route } from './menu-helpers';
+import { route } from '../../helpers';
 import {
     compose,
     withState,
