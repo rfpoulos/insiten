@@ -6,6 +6,7 @@ import {
     withState,
     withHandlers,
 } from 'recompose';
+import { connect } from 'react-redux';
 import {
     container,
     nav,
@@ -18,7 +19,9 @@ export let Menu = ({
     history,
     handleToggle,
     menuOpen,
+    role,
 }) =>
+    role &&
     <nav onClick={ handleToggle } style={ container }>
         <Icon
             src={ Hamburger } 
@@ -32,17 +35,35 @@ export let Menu = ({
                     onClick={ route(history, 'search') }>
                     Search
                 </li>
-                <li style={ li }
+                {
+                    (role === 'admin') &&
+                    <li style={ li }
                     onClick={ route(history,'add') }>
                     Add
+                    </li>
+                }
+                {
+                    (role === 'admin') &&
+                    <li style={ li }
+                    onClick={ route(history,'privileges') }>
+                    Privileges
+                    </li>
+                }
+                <li style={ li }
+                    onClick={ route(history, 'logout') }>
+                    Logout
                 </li>
             </ul>
         }
     </nav>
 
+let mapStateToProps = (state) => ({
+    role: state.user && state.user.role
+});
 
 export let enhance = compose(
     withRouter,
+    connect(mapStateToProps),
     withState('menuOpen', 'menuToggle', false),
     withHandlers({
         handleToggle: ({ menuOpen, menuToggle }) =>
