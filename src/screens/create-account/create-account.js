@@ -1,6 +1,5 @@
 import React from 'react';
 import { createAccount } from './create-account-helpers';
-import { connect } from 'react-redux';
 import {
     withRouter,
     Link,
@@ -10,7 +9,6 @@ import {
     withState, 
     withHandlers,
 } from 'recompose';
-import { updateUserObject } from '../../redux/actions';
 import TextInput from '../../components/text-input/text-input';
 import Button from '../../components/button/button';
 import {
@@ -21,7 +19,6 @@ import {
 export let CreateAccount = ({ 
     createAccountForm,
     handleForm, 
-    updateUserObject,
     history,
 }) =>
     <div style={ container }>
@@ -48,7 +45,7 @@ export let CreateAccount = ({
         </div>
         <Button text="Create Account" 
             onClick={ 
-                createAccount(createAccountForm, updateUserObject, history)
+                createAccount(createAccountForm, history)
         } />
         <Link to="/signin">Already a user?  Sign in here.</Link>
     </div>
