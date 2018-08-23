@@ -7,7 +7,7 @@ export let container = ({
 export let nav = ({
     height: '100vh',
     width: '100vw',
-    margin: '.75rem -.75rem -.75rem -.75rem',
+    margin: '0.5rem -0.75rem -0.75rem -0.75rem',
     padding: '.25rem 0 0 0',
     listStyleType: 'none',
     backgroundColor: 'rgba(100, 100, 100, 0.5)',

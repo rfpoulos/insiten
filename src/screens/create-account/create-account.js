@@ -43,10 +43,12 @@ export let CreateAccount = ({
                 onChange={ handleForm('password') }
             />
         </div>
-        <Button text="Create Account" 
-            onClick={ 
-                createAccount(createAccountForm, history)
-        } />
+        <div style={ input }>        
+            <Button text="Create Account" 
+                onClick={ 
+                    createAccount(createAccountForm, history)
+            } />
+        </div>
         <Link to="/signin">Already a user?  Sign in here.</Link>
     </div>
 

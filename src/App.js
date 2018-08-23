@@ -11,11 +11,13 @@ import Menu from './screens/menu/menu';
 import CreateAccount from './screens/create-account/create-account';
 import SignIn from './screens/sign-in/sign-in';
 import SignInRedirect from './fragments/sign-in-redirect/sign-in-redirect';
+import Header from './screens/header/header';
 
 export default () => 
   <Router>
     <div>
       <SignInRedirect />
+      <Header />
       <Menu />
       <div style={ content }>
         <Switch>
