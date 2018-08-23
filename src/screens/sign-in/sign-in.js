@@ -34,6 +34,7 @@ export let SignIn = ({
                 placeholder="Email or Username"
                 value={ signInForm.identifier }
                 onChange={ handleForm('identifier') }
+                label="Email"
             />
         </div>
         <div style={ input }>        
@@ -41,6 +42,7 @@ export let SignIn = ({
                 placeholder="Password"
                 value={ signInForm.password }
                 onChange={ handleForm('password') }
+                label="Password"
             />
         </div>
         <div style={ input } >
