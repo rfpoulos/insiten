@@ -12,6 +12,7 @@ export default ({
     onFocus,
     onBlur,
     onClick,
+    maxLength,
 }) =>
     <input style={ input }
         type={ type }
@@ -21,4 +22,5 @@ export default ({
         onClick={ onClick }
         onFocus={ onFocus }
         onBlur={ onBlur }
+        maxLength={ maxLength }
     />
