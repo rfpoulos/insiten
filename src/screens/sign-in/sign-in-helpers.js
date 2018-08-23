@@ -15,10 +15,13 @@ let fetchSignIn = (signInForm) =>
     })
     .then(res => res.json());
 
-export let signIn = (signInForm, updateUserObject, history) => 
-    async() => {
-        let userData = await fetchSignIn(signInForm);
-        setTokenInLocalStorage(userData);
-        updateUserObject(userData);
-        history.push('/search');
+export let signIn = async (signInForm, updateUser, history) => {
+        let user = await fetchSignIn(signInForm);
+        updateUser(user);
+        if (user && !user.role) {
+            localStorage.clear()
+        } else {
+            setTokenInLocalStorage(user);
+            history.push('/search');
+        }
     };

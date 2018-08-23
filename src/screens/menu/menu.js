@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { route } from '../../helpers';
+import { logout } from './menu-helpers';
+import { resetState } from '../../redux/actions';
 import {
     compose,
     withState,
@@ -20,6 +22,7 @@ export let Menu = ({
     handleToggle,
     menuOpen,
     role,
+    resetState,
 }) =>
     role &&
     <nav onClick={ handleToggle } style={ container }>
@@ -50,7 +53,7 @@ export let Menu = ({
                     </li>
                 }
                 <li style={ li }
-                    onClick={ route(history, 'logout') }>
+                    onClick={ logout(resetState, route(history, 'signin')) }>
                     Logout
                 </li>
             </ul>
@@ -61,9 +64,17 @@ let mapStateToProps = (state) => ({
     role: state.user && state.user.role
 });
 
+let mapDispatchToProps = (dispatch) =>
+({
+    resetState: () => dispatch(resetState()),
+});
+
 export let enhance = compose(
     withRouter,
-    connect(mapStateToProps),
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    ),
     withState('menuOpen', 'menuToggle', false),
     withHandlers({
         handleToggle: ({ menuOpen, menuToggle }) =>

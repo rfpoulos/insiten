@@ -21,10 +21,14 @@ import {
 export let SignIn = ({ 
     signInForm, 
     handleForm, 
-    updateUser,
-    history,
+    handleSignIn,
+    user,
 }) =>
     <div style={ container }>
+        {
+            user && !user.role &&
+            <p>Not authorized yet.  Contact adminstrator to gain permissions.</p>
+        }
         <div style={ input }>        
             <TextInput type="text" 
                 placeholder="Email or Username"
@@ -39,15 +43,17 @@ export let SignIn = ({
                 onChange={ handleForm('password') }
             />
         </div>
-        <Button text="Sign In" 
-            onClick={ signIn(signInForm, updateUser, history) }
-        />
+        <div style={ input } >
+            <Button text="Sign In" 
+              onClick={ handleSignIn }
+            />
+        </div>        
         <Link to="/createaccount">New user?  Create Account.</Link>
     </div>
 
 let mapStateToProps = (state) => 
     ({
-
+        user: state.user
     });
 
 let mapDispatchToProps = (dispatch) => 
@@ -76,6 +82,15 @@ export let enhance = compose(
                     ...signInForm, 
                     [category]: event.target.value
             }),
+        handleSignIn: ({
+            signInForm,
+            updateUser,
+            history,
+            updateSignInForm,
+        }) => event => {
+            signIn(signInForm, updateUser, history);
+            updateSignInForm({ identifier: '', password: '' });
+        }
     }),
 );
 
