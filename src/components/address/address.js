@@ -18,7 +18,7 @@ export default ({
         >
         Address:
         </label>
-        <p style={ paragraph }>{ address }</p>
+        <p style={ paragraph }>{ address + ',' }</p>
         <p style={ paragraph }>{ city + ', ' + state }</p>
         <p style={ paragraph }>{ country }</p>
     </div>

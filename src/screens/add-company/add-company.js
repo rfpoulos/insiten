@@ -10,33 +10,22 @@ import {
 import CompanyForm from '../../collections/company-form/company-form';
 
 export let addCompany = ({
-    company,
     submitCompany,
     handleForm,
 }) =>
-    <CompanyForm company={ {
-            name: '',
-            public: true,
-            address: '',
-            city: '',
-            state: '',
-            country: '',
-            founded: '',
-            employees: '',
-            description: '',
-            status: 'none',
-        } }
+    <CompanyForm 
         submitCompany={ submitCompany }
         handleForm={ handleForm }
+        title="Add Company"
+        button="Submit"
     />
 
 export let enhance = compose(
     withRouter,
     withHandlers({
         submitCompany: ({
-            company,
             history,
-        }) => async event => {
+        }) => company => async event => {
             let postedCompany = await postCompany(company);
             if (postedCompany.id) {
                 history.push('/company/' + postedCompany.id)
