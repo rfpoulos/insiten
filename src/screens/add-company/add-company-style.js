@@ -13,3 +13,20 @@ export let input = ({
     justifyContent: 'center',
     paddingBottom: '1rem',
 });
+
+export let doubleLeft = ({
+    paddingRight: '.5rem',
+    width: '50%',
+});
+
+export let doubleRight = ({
+    paddingLeft: '.5rem',
+    width: '50%',
+});
+
+export let dropDowns = ({
+    width: '100%',
+    maxWidth: '20rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+});

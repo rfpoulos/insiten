@@ -27,6 +27,7 @@ export let CreateAccount = ({
                 placeholder="Email"
                 value={ createAccountForm.email }
                 onChange={ handleForm('email') }
+                label="Email"
             />
         </div>
         <div style={ input }>        
@@ -34,6 +35,7 @@ export let CreateAccount = ({
                 placeholder="Username"
                 value={ createAccountForm.username }
                 onChange={ handleForm('username') }
+                label="Username"
             />
             </div>
         <div style={ input }>        
@@ -41,6 +43,7 @@ export let CreateAccount = ({
                 placeholder="Password"
                 value={ createAccountForm.password }
                 onChange={ handleForm('password') }
+                label="Password"
             />
         </div>
         <div style={ input }>        

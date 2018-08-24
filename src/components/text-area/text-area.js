@@ -2,7 +2,7 @@ import React from 'react';
 import {
     input,
     container,
-} from './text-input-style';
+} from './text-area-style';
 
 export default ({ 
     type, 
@@ -18,7 +18,7 @@ export default ({
 }) =>
     <div style={ container }>
         <label htmlFor={ label }>{ label + ': ' }</label>
-        <input style={ input }
+        <textarea style={ input }
             type={ type }
             placeholder={ placeholder }
             value={ value }
@@ -27,6 +27,6 @@ export default ({
             onFocus={ onFocus }
             onBlur={ onBlur }
             maxLength={ maxLength }
-            id={ label }
+            rows="6"
         />
     </div>

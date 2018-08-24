@@ -41,7 +41,7 @@ export let Menu = ({
                 {
                     (role === 'admin') &&
                     <li style={ li }
-                    onClick={ route(history,'add') }>
+                    onClick={ route(history,'addcompany') }>
                     Add
                     </li>
                 }
