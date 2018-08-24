@@ -6,10 +6,10 @@ export let container = ({
     padding: '1rem',
 });
 
-export let input = ({
+export let paragraph = ({
     width: '100%',
     display: 'flex',
     maxWidth: '20rem',
     justifyContent: 'center',
     paddingBottom: '1rem',
-});    
+})

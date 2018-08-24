@@ -3,8 +3,6 @@ import {
     compose,
     withState,
     withHandlers,
-    mapPropsStream,
-    setObservableConfig,
 } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import {
@@ -15,28 +13,20 @@ import {
     dropDowns,
 } from './add-company-style';
 import { 
-    googlePlacesAutocomplete,
     postCompany,
 } from './add-company-helpers';
 import TextInput from '../../components/text-input/text-input';
 import Button from '../../components/button/button';
 import TextArea from '../../components/text-area/text-area';
 import PageTitle from '../../components/page-title/page-title';
-import Autocomplete from '../../collections/autocomplete/autocomplete';
-import GoogleAttr from '../../components/google-attr/google-attr';
 import DropDown from '../../components/drop-down/drop-down';
-import { Subject } from 'rxjs/Subject';
-import rxjsconfig from 'recompose/rxjsObservableConfig';
-setObservableConfig(rxjsconfig)
+import PlacesAutocomplete from '../../collections/places-autocomplete/places-autocomplete';
 
 export let addCompany = ({
     company,
     handleForm,
     submitCompany,
-    placesResults,
-    placesSearch,
-    placesQuery,
-    placeClick
+    placeClick,
 }) =>
     <div style={ container }>
         <PageTitle text="Add New Company"/>
@@ -49,17 +39,9 @@ export let addCompany = ({
             />
         </div>
         <div style={ input } >
-        <Autocomplete placeholder="Search for Address"
-            results={ placesResults }
-            onChange={ (event) => 
-                placesSearch(event.target.value) }
-            value={ placesQuery }
-            resultOnClick={ placeClick }
-            bottomFixedResults={ [
-                { text: <GoogleAttr /> }
-            ] }
-            label="Search for Address"
-        />       
+            <PlacesAutocomplete 
+                resultOnClick={ placeClick }
+            />       
         </div>
         <div style={ input }>
             <TextInput placeholder="Address"
@@ -149,43 +131,6 @@ export let addCompany = ({
 
 export let enhance = compose(
     withRouter,
-    mapPropsStream(props$ => {
-        let placesSearch$ = new Subject();
-        let placesSearch = v => placesSearch$.next(v);
-    
-        let placesQuery$ =  placesSearch$
-            .startWith('');
-    
-        let placesResults$ = placesQuery$
-            .debounceTime(500)
-            .distinctUntilChanged()
-            .switchMap(query => query ? 
-                googlePlacesAutocomplete(query) : 
-                Promise.resolve([])
-            )
-            .map(results => results
-                    .filter(result => result.place_id)
-                    .map(result => ({
-                    terms: result.terms,
-                    text: result.description,
-                    placeId: result.place_id,
-                })
-            )
-        );
-        return props$.combineLatest(
-            placesResults$, 
-            placesQuery$,
-            (   props, 
-                placesResults, 
-                placesQuery
-            ) => ({
-                ...props, 
-                placesSearch, 
-                placesResults, 
-                placesQuery,
-          })
-        )}
-    ),
     withState('company', 'updateCompany', {
         name: '',
         public: true,
@@ -225,13 +170,13 @@ export let enhance = compose(
         }) => (result) => {
             let newCompany = {
                 ...company,
-                address: `${result.terms[0].value} ${result.terms[1].value}`,
+                address: result.terms[0].value + 
+                    ' ' + result.terms[1].value,
                 city: result.terms[2].value,
                 state: result.terms[3].value,
                 country: result.terms[4].value,
             }
             updateCompany(newCompany);
-            placesSearch(result.text);
         }
     }),
 )

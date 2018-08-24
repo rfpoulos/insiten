@@ -1,7 +1,6 @@
 import { server } from '../../variables';
 
-let setTokenInLocalStorage = (userData) => {
-    let token = userData.token;
+let setTokenInLocalStorage = (token) => {
     localStorage.setItem('token', token);
 };
 
@@ -18,10 +17,10 @@ let fetchSignIn = (signInForm) =>
 export let signIn = async (signInForm, updateUser, history) => {
         let user = await fetchSignIn(signInForm);
         updateUser(user);
-        if (user && !user.role) {
+        if (user && user.message) {
             localStorage.clear()
         } else {
-            setTokenInLocalStorage(user);
+            setTokenInLocalStorage(user.token);
             history.push('/search');
         }
     };

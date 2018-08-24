@@ -13,6 +13,8 @@ import SignIn from './screens/sign-in/sign-in';
 import SignInRedirect from './fragments/sign-in-redirect/sign-in-redirect';
 import Header from './screens/header/header';
 import AddCompany from './screens/add-company/add-company';
+import CompanyDetail from './screens/company-detail/company-detail';
+import CreateAccountSuccess from './screens/create-account-success/create-account-success';
 
 export default () => 
   <Router>
@@ -22,9 +24,11 @@ export default () =>
       <Menu />
       <div style={ content }>
         <Switch>
+          <Route path="/createaccount/success" component={ CreateAccountSuccess } />
           <Route path="/createaccount" component={ CreateAccount } />
           <Route path="/signin" component={ SignIn } />
           <Route path="/addcompany" component={ AddCompany } />
+          <Route path="/company/:companyId" component={ CompanyDetail } />
         </Switch>
       </div>
     </div>
