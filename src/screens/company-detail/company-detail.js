@@ -2,7 +2,6 @@ import React from 'react';
 import {
     compose,
     withState,
-    withHandlers,
     lifecycle,
 } from 'recompose';
 import { connect } from 'react-redux';
@@ -11,8 +10,6 @@ import {
 } from './company-detail-helpers';
 import {
     container,
-    input,
-    noteStyle,
 } from './company-detail-style';
 import CompanyCard from '../../collections/company-card/company-card';
 import NoteForm from '../../collections/note-form/note-form';
