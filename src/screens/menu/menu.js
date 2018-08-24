@@ -21,10 +21,12 @@ export let Menu = ({
     history,
     handleToggle,
     menuOpen,
-    role,
     resetState,
+    user,
 }) =>
-    role &&
+<div>
+    {
+    user && user.role &&
     <nav onClick={ handleToggle } style={ container }>
         <Icon
             src={ Hamburger } 
@@ -39,14 +41,14 @@ export let Menu = ({
                     Search
                 </li>
                 {
-                    (role === 'admin') &&
+                    (user.role === 'admin') &&
                     <li style={ li }
                     onClick={ route(history,'addcompany') }>
                     Add
                     </li>
                 }
                 {
-                    (role === 'admin') &&
+                    (user.role === 'admin') &&
                     <li style={ li }
                     onClick={ route(history,'privileges') }>
                     Privileges
@@ -59,9 +61,11 @@ export let Menu = ({
             </ul>
         }
     </nav>
+    }
+</div>
 
 let mapStateToProps = (state) => ({
-    role: state.user && state.user.role
+    user: state.user
 });
 
 let mapDispatchToProps = (dispatch) =>

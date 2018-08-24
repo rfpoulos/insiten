@@ -17,6 +17,7 @@ import {
     container,
     input,
 } from './sign-in-style';
+import Paragraph from '../../components/paragraph/paragraph';
 
 export let SignIn = ({ 
     signInForm, 
@@ -26,15 +27,27 @@ export let SignIn = ({
 }) =>
     <div style={ container }>
         {
-            user && !user.role &&
-            <p>Not authorized yet.  Contact adminstrator to gain permissions.</p>
+            user && (user.message === 'unauthorized') &&
+            <div style={ input }>
+                <Paragraph label="Error"
+                    text="Not authorized yet.  Contact adminstrator to gain permissions."
+                />
+            </div>
+        }
+        {
+            user && (user.message === 'not user') &&
+            <div style={ input }>
+                <Paragraph label="Error"
+                    text="Username and/or password incorrect."
+                />
+            </div>
         }
         <div style={ input }>        
             <TextInput type="text" 
                 placeholder="Email or Username"
                 value={ signInForm.identifier }
                 onChange={ handleForm('identifier') }
-                label="Email"
+                label="Email or Username"
             />
         </div>
         <div style={ input }>        

@@ -1,4 +1,4 @@
-export let button = {
+export let button = ({
 	boxShadow: 'inset 0px 1px 0px 0px #ffffff',
 	background: 'linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%)',
 	backgroundColor: '#ededed',
@@ -13,4 +13,4 @@ export let button = {
     textShadow: '0px 1px 0px #ffffff',
     width: '12rem',
     height: '2rem',
-}
+})

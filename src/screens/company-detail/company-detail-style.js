@@ -12,4 +12,11 @@ export let input = ({
     maxWidth: '20rem',
     justifyContent: 'center',
     paddingBottom: '1rem',
-});    
+});
+
+export let noteStyle = ({
+    width: '100%',    
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+});
