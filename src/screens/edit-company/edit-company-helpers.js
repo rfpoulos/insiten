@@ -1,7 +1,7 @@
 import { server } from '../../variables';
-export let postCompany = (company) =>
+export let putCompany = (company) =>
     fetch(server + 'company', {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(company),
         headers: new Headers ({
             "Content-Type": "application/json",

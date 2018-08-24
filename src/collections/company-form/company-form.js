@@ -3,6 +3,7 @@ import {
     compose,
     withState,
     withHandlers,
+    lifecycle,
 } from 'recompose';
 import {
     container,
@@ -23,9 +24,11 @@ export let addCompany = ({
     handleForm,
     submitCompany,
     placeClick,
+    title,
+    button,
 }) =>
     <div style={ container }>
-        <PageTitle text="Add New Company"/>
+        <PageTitle text={ title }/>
         <div style={ input }>
             <TextInput placeholder="Name"
                 type="text"
@@ -91,7 +94,7 @@ export let addCompany = ({
         </div>
         <div style={ input }>
             <TextArea placeholder="Description"
-                value={ company.desription }
+                value={ company.description }
                 onChange={ handleForm('description') }
                 label="Description"
             />
@@ -119,8 +122,8 @@ export let addCompany = ({
             </div>
         </div>
         <div style={ input }>
-            <Button text="Add Company" 
-                onClick={ submitCompany }
+            <Button text={ button } 
+                onClick={ submitCompany(company) }
             />
         </div>
     </div>
@@ -163,6 +166,13 @@ export let enhance = compose(
                 country: result.terms[4].value,
             }
             updateCompany(newCompany);
+        }
+    }),
+    lifecycle({
+        componentDidUpdate(props) {
+            if (this.props.companyInfo !== props.companyInfo) {
+                this.props.updateCompany(this.props.companyInfo)
+            }
         }
     }),
 )
