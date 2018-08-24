@@ -5,22 +5,32 @@ import {
     withHandlers,
     lifecycle,
 } from 'recompose';
-import { withRouter } from 'react-router-dom';
+import { 
+    withRouter,
+    Link,
+} from 'react-router-dom';
 import CompanyForm from '../../collections/company-form/company-form';
 import { getCompanyById } from '../company-detail/company-detail-helpers';
 import { putCompany } from './edit-company-helpers';
+import { container } from '../create-account-success/create-account-success-style';
 
 export let addCompany = ({
     companyInfo,
     submitCompany,
     handleForm,
+    match,
 }) =>
-    <CompanyForm companyInfo={ companyInfo }
-        submitCompany={ submitCompany }
-        handleForm={ handleForm }
-        title="Edit Company"
-        button="Update"
-    />
+    <div style={ container }>
+        <CompanyForm companyInfo={ companyInfo }
+            submitCompany={ submitCompany }
+            handleForm={ handleForm }
+            title="Edit Company"
+            button="Update"
+        />
+        <Link to={'/company/' + match.params.companyId }>
+        Go back to company details
+        </Link>
+    </div>
 
 export let enhance = compose(
     withRouter,
