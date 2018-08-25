@@ -4,7 +4,6 @@ import {
     mapPropsStream,
     setObservableConfig,
 } from 'recompose';
-import { googlePlacesAutocomplete } from './places-autocomplete-helpers';
 import GoogleAttr from '../../components/google-attr/google-attr';
 import { Subject } from 'rxjs/Subject';
 import Autocomplete from '../../components/autocomplete/autocomplete';
@@ -13,15 +12,15 @@ setObservableConfig(rxjsconfig)
 
 export let placesAutocomplete = ({
     resultOnClick,
-    placesResults,
-    placesSearch,
-    placesQuery,
+    results,
+    search,
+    query,
 }) =>
     <Autocomplete placeholder="Search for Address"
-        results={ placesResults }
+        results={ results }
         onChange={ (event) => 
-            placesSearch(event.target.value) }
-        value={ placesQuery }
+            search(event.target.value) }
+        value={ query }
         resultOnClick={ resultOnClick }
         bottomFixedResults={ [
             { text: <GoogleAttr /> }
@@ -31,39 +30,39 @@ export let placesAutocomplete = ({
 
 export let enhance = compose(
     mapPropsStream(props$ => {
-        let placesSearch$ = new Subject();
-        let placesSearch = v => placesSearch$.next(v);
+        let search$ = new Subject();
+        let search = v => search$.next(v);
     
-        let placesQuery$ =  placesSearch$
+        let query$ =  search$
             .startWith('');
-    
-        let placesResults$ = placesQuery$
-            .debounceTime(500)
+        let fetchRequest;
+        let mapCallBack;
+        props$.subscribe(data =>  { 
+            fetchRequest = data.fetchRequest;
+            mapCallBack = data.mapCallBack;
+        })
+        let results$ = query$
+            .debounceTime(350)
             .distinctUntilChanged()
             .switchMap(query => query ? 
-                googlePlacesAutocomplete(query) : 
+                fetchRequest(query) : 
                 Promise.resolve([])
             )
             .map(results => results
                     .filter(result => result.place_id)
-                    .map(result => ({
-                    terms: result.terms,
-                    text: result.description,
-                    placeId: result.place_id,
-                })
-            )
-        );
+                    .map(mapCallBack)
+            );
         return props$.combineLatest(
-            placesResults$, 
-            placesQuery$,
+            results$, 
+            query$,
             (   props, 
-                placesResults, 
-                placesQuery
+                results, 
+                query
             ) => ({
                 ...props, 
-                placesSearch, 
-                placesResults, 
-                placesQuery,
+                search, 
+                results, 
+                query,
           })
         )}
     ),
