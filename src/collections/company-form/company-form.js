@@ -12,12 +12,15 @@ import {
     doubleRight,
     dropDowns,
 } from './company-form-style';
+import {
+    googlePlacesAutocomplete,
+} from './company-form-helpers';
 import TextInput from '../../components/text-input/text-input';
 import Button from '../../components/button/button';
 import TextArea from '../../components/text-area/text-area';
 import PageTitle from '../../components/page-title/page-title';
 import DropDown from '../../components/drop-down/drop-down';
-import PlacesAutocomplete from '../../collections/places-autocomplete/places-autocomplete';
+import Autocomplete from '../autocomplete/autocomplete';
 
 export let addCompany = ({
     company,
@@ -38,8 +41,14 @@ export let addCompany = ({
             />
         </div>
         <div style={ input } >
-            <PlacesAutocomplete 
+            <Autocomplete 
                 resultOnClick={ placeClick }
+                fetchRequest={ googlePlacesAutocomplete }
+                mapCallBack={ result => ({
+                    terms: result.terms,
+                    text: result.description,
+                    placeId: result.place_id,
+                })}
             />       
         </div>
         <div style={ input }>
