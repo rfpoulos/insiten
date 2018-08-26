@@ -20,7 +20,7 @@ export default withRouter(({
         <Title text={company.name} />
         <div style={ section } >
             <Paragraph label="Status:"
-                text={ company.status } 
+                text={ company.status.toUpperCase() } 
             />
         </div>
         <div style={ section } >
