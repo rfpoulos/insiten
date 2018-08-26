@@ -24,6 +24,8 @@ import AutoComplete from '../../collections/autocomplete/autocomplete';
 import DropDown from '../../components/drop-down/drop-down';
 import { withRouter } from 'react-router';
 import TextInput from '../../components/text-input/text-input';
+import CompanyCard from '../../iterables/company/company';
+import { route } from '../../helpers';
 
 export let companySearch = ({
     search,
@@ -32,6 +34,7 @@ export let companySearch = ({
     nameClick,
     results,
     resetSearch,
+    history,
 }) => 
     <div style={ container }>
         <Title text="Search for Company" />
@@ -117,8 +120,15 @@ export let companySearch = ({
             </div>
         </div>
         {
-            results.map((result, i) => 
-                <li key={ i }>{result.name}</li>
+            results.map((company, i) => 
+                <div key={ i }
+                    style={ input }
+                >
+                    <CompanyCard id={ i }
+                        company={ company }
+                        onClick={ route(history, 'company/' + company.id)}
+                    />
+                </div>
             )
         }
     </div>
