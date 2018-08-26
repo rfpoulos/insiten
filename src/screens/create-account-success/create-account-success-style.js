@@ -12,4 +12,4 @@ export let paragraph = ({
     maxWidth: '20rem',
     justifyContent: 'center',
     paddingBottom: '1rem',
-})
+});

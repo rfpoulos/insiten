@@ -16,6 +16,7 @@ import AddCompany from './screens/add-company/add-company';
 import CompanyDetail from './screens/company-detail/company-detail';
 import CreateAccountSuccess from './screens/create-account-success/create-account-success';
 import EditCompany from './screens/edit-company/edit-company';
+import CompanySearch from './screens/company-search/company-search';
 
 export default () => 
   <Router>
@@ -31,6 +32,7 @@ export default () =>
           <Route path="/addcompany" component={ AddCompany } />
           <Route path="/company/:companyId" component={ CompanyDetail } />
           <Route path="/editcompany/:companyId" component={ EditCompany } />
+          <Route path="/search/" component={ CompanySearch } />
         </Switch>
       </div>
     </div>

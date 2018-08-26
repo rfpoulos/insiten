@@ -15,12 +15,14 @@ import {
 import {
     googlePlacesAutocomplete,
 } from './company-form-helpers';
+import GoogleAttr from '../../components/google-attr/google-attr';
 import TextInput from '../../components/text-input/text-input';
 import Button from '../../components/button/button';
 import TextArea from '../../components/text-area/text-area';
 import PageTitle from '../../components/page-title/page-title';
-import DropDown from '../../components/drop-down/drop-down';
 import Autocomplete from '../autocomplete/autocomplete';
+import HeldDropDown from '../../configured/held-dropdown/held-dropdown';
+import StatusDropDown from '../../configured/status-drop-down/status-drop-down';
 
 export let addCompany = ({
     company,
@@ -41,14 +43,22 @@ export let addCompany = ({
             />
         </div>
         <div style={ input } >
-            <Autocomplete 
+            <Autocomplete label="Find Address"
+                placeholder="Search Google"
                 resultOnClick={ placeClick }
                 fetchRequest={ googlePlacesAutocomplete }
-                mapCallBack={ result => ({
-                    terms: result.terms,
-                    text: result.description,
-                    placeId: result.place_id,
-                })}
+                mapCallBack={ result => {
+                    if (result.place_id) {
+                        return ({
+                            terms: result.terms,
+                            text: result.description,
+                            placeId: result.place_id,
+                        })
+                    }
+                }}
+                bottomFixedResults={[
+                    { text: <GoogleAttr /> }
+                ]}
             />       
         </div>
         <div style={ input }>
@@ -110,23 +120,11 @@ export let addCompany = ({
         </div>
         <div style={ input }>
             <div style={ dropDowns }>
-                <DropDown options={ [
-                    { value: true, text: 'Public'},
-                    { value: false, text: 'Private'}
-                ] }
+                <HeldDropDown value={ company.public }
                     onChange={ handleForm('public') }
-                    value={ company.public }
-                    label={ 'Owned' }
                 />
-                <DropDown options={ [
-                    { value: 'none', text: 'none' },
-                    { value: 'pending', text: 'Pending' },
-                    { value: 'approved', text: 'Approved' },
-                    { value: 'declined', text: 'Declined' }
-                ] }
+                <StatusDropDown value={ company.status }
                     onChange={ handleForm('status') }
-                    value={ company.status }
-                    label={ 'Status' }
                 />
             </div>
         </div>

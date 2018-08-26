@@ -4,7 +4,6 @@ import {
     mapPropsStream,
     setObservableConfig,
 } from 'recompose';
-import GoogleAttr from '../../components/google-attr/google-attr';
 import { Subject } from 'rxjs/Subject';
 import Autocomplete from '../../components/autocomplete/autocomplete';
 import rxjsconfig from 'recompose/rxjsObservableConfig';
@@ -15,17 +14,21 @@ export let placesAutocomplete = ({
     results,
     search,
     query,
+    placeholder,
+    label,
+    bottomFixedResults,
 }) =>
-    <Autocomplete placeholder="Search for Address"
+    <Autocomplete placeholder={ placeholder }
         results={ results }
         onChange={ (event) => 
             search(event.target.value) }
         value={ query }
-        resultOnClick={ resultOnClick }
-        bottomFixedResults={ [
-            { text: <GoogleAttr /> }
-        ] }
-        label="Search for Address"
+        resultOnClick={ (result) => {
+            resultOnClick(result)
+            search(result.text)
+        }}
+        bottomFixedResults={ bottomFixedResults }
+        label={ label }
     />
 
 export let enhance = compose(
@@ -40,6 +43,7 @@ export let enhance = compose(
         props$.subscribe(data =>  { 
             fetchRequest = data.fetchRequest;
             mapCallBack = data.mapCallBack;
+            
         })
         let results$ = query$
             .debounceTime(350)
@@ -48,9 +52,7 @@ export let enhance = compose(
                 fetchRequest(query) : 
                 Promise.resolve([])
             )
-            .map(results => results
-                    .filter(result => result.place_id)
-                    .map(mapCallBack)
+            .map(results => results.map(mapCallBack)
             );
         return props$.combineLatest(
             results$, 
