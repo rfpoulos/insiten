@@ -16,6 +16,7 @@ import {
 import Title from '../../components/page-title/page-title';
 import Button from '../../components/button/button';
 import TextArea from '../../components/text-area/text-area';
+import NoteCard from '../../iterables/note/note';
 
 export let noteForm = ({
     newNote,
@@ -51,10 +52,13 @@ export let noteForm = ({
         }
         {
             notes.map((note, i) =>
-                <li key={ i }>{ note.note + ' ' + 
-                    new Date(note.timestamp)
-                    .toLocaleString("en-US") 
-                }</li>
+                <div key={ i }
+                    style={ input }
+                >
+                    <NoteCard id={ i }
+                        note={ note }
+                    />
+                </div>
         )}
     </div>
 
