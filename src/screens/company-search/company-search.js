@@ -15,12 +15,12 @@ import {
 import {
     getCountries,
     getCompanyByName,
+    getCompanySearch,
 } from './company-search-helpers';
 import Title from '../../components/page-title/page-title';
 import HeldDropDown from '../../configured/held-dropdown/held-dropdown';
 import StatusDropDown from '../../configured/status-drop-down/status-drop-down';
 import AutoComplete from '../../collections/autocomplete/autocomplete';
-import Button from '../../components/button/button';
 import DropDown from '../../components/drop-down/drop-down';
 import { withRouter } from 'react-router';
 import TextInput from '../../components/text-input/text-input';
@@ -65,8 +65,8 @@ export let companySearch = ({
                 />
             </div>
             <div style={ dropDowns }>
-                <HeldDropDown value={ search.public } 
-                    onChange={ handleSearch('public') }
+                <HeldDropDown value={ search.held } 
+                    onChange={ handleSearch('held') }
                     extraOption={{
                         text: 'Both', 
                         value: 'both',
@@ -83,41 +83,36 @@ export let companySearch = ({
             <div style={ input }>
                 <div style={ doubleLeft }>
                     <TextInput type="number"
-                        value={ search.sizeStart }
-                        onChange={ handleSearch('sizeStart') }
+                        value={ search.sizeMin }
+                        onChange={ handleSearch('sizeMin') }
                         label="Min"
                     />
                 </div>
                 <div style={ doubleRight }>
                     <TextInput type="number"
-                        value={ search.sizeEnd }
-                        onChange={ handleSearch('sizeEnd') }
+                        value={ search.sizeMax }
+                        onChange={ handleSearch('sizeMax') }
                         label="Max"
                     />
                 </div>
             </div>
             <div style={ dropDowns } >
                 <DropDown options={ [
-                        { value: 'name', text: 'Name' },                        
-                        { value: 'size', text: 'Size' },
-                        { value: 'status', text: 'Status' },
+                        { value: 2, text: 'Name' },                        
+                        { value: 7, text: 'Size' },
+                        { value: 10, text: 'Status' },
                     ] }
                     label="Sort By"
                     onChange={ handleSearch('sortBy') }
                     value={ search.sortBy }                        
                 />
                 <DropDown options={ [
-                        { value: 'up', text: 'Up' },
-                        { value: 'down', text: 'Down' },
+                        { value: 'ASC', text: 'ASC' },
+                        { value: 'DESC', text: 'DESC' },
                     ] }
-                    label="Up/Down"
+                    label="ASC/DESC"
                     onChange={ handleSearch('direction') }
                     value={ search.direction }                        
-                />
-            </div>
-            <div style={ input }>
-                <Button text="Reset"
-                    onClick={ resetSearch }
                 />
             </div>
         </div>
@@ -129,13 +124,13 @@ export let companySearch = ({
     </div>
 
 const defaultSearch = ({
-    public: 'both',
+    held: 'both',
     status: 'any',
     country: '',
-    sortBy: 'name',
-    direction: 'up',
-    sizeStart: 0,
-    sizeEnd: 999999,
+    sortBy: 2,
+    direction: 'ASC',
+    sizeMin: 0,
+    sizeMax: 999999,
 });
 
 export let enhance = compose(
@@ -147,33 +142,34 @@ export let enhance = compose(
         handleSearch: ({
             search, 
             updateSearch,
-        }) => (category) => event => 
-            updateSearch({
+            updateResults,
+        }) => (category) => async event => {
+            let newSearch = {
                 ...search, 
                 [category]: event.target.value
-        }),
+            }
+            updateSearch(newSearch);
+            let results = await getCompanySearch(newSearch);
+            updateResults(results);
+        },
         countryClick: ({
             updateSearch,
             search,
-        }) => (result) => {
+            updateResults,
+        }) => async (result) => {
             let newSearch = {
                 ...search,
                 country: result.text
             }
             updateSearch(newSearch);
+            let results = await getCompanySearch(newSearch);
+            updateResults(results);
         },
         nameClick: ({
             updateResults,
             history,
         }) => (result) => {
             history.push('/company/' + result.results.id);
-        },
-        resetSearch: ({
-            updateSearch,
-            updateResults,
-        }) => () => {
-            updateSearch(defaultSearch);
-            updateResults([]);
         },
     }),
 );

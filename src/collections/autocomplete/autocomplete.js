@@ -4,7 +4,6 @@ import {
     mapPropsStream,
     setObservableConfig,
 } from 'recompose';
-import GoogleAttr from '../../components/google-attr/google-attr';
 import { Subject } from 'rxjs/Subject';
 import Autocomplete from '../../components/autocomplete/autocomplete';
 import rxjsconfig from 'recompose/rxjsObservableConfig';
