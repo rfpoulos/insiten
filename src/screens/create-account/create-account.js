@@ -47,7 +47,7 @@ export let CreateAccount = ({
             />
         </div>
         <div style={ input }>        
-            <Button text="Create Account" 
+            <Button text="Create" 
                 onClick={ 
                     createAccount(createAccountForm, history)
             } />
