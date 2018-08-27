@@ -20,6 +20,12 @@ export default ({
             />
         </div>
         <div style={ line }>
+            <TextInfo id={ 'role' + id }
+                label="Role:"
+                text={ contact.role }
+            />
+        </div>
+        <div style={ line }>
             <TextInfo id={ 'phone' + id }
                 label="Phone:"
                 text={ contact.phone }
