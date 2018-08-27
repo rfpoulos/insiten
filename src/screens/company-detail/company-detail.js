@@ -13,6 +13,7 @@ import {
 } from './company-detail-style';
 import CompanyCard from '../../collections/company-card/company-card';
 import NoteForm from '../../collections/note-form/note-form';
+import Contacts from '../../collections/contacts/contacts';
 
 export let companyDetail = ({
     company,
@@ -24,6 +25,7 @@ export let companyDetail = ({
         <CompanyCard company={ company }
             user={ user }
         />
+        <Contacts companyId={ match.params.companyId }/>
         <NoteForm notes={ notes }
             companyId={ match.params.companyId }
         />

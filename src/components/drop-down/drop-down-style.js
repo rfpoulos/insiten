@@ -3,6 +3,8 @@ import caret from '../../images/caret-down-solid.svg';
 export let container = ({
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
 });
 
 export let select = ({

@@ -12,17 +12,27 @@ import {
 } from './note-form-style';
 import {
     getNotes,
+    getContactsSearch,
+    postNote,
 } from './note-form-helpers';
 import Title from '../../components/page-title/page-title';
 import Button from '../../components/button/button';
 import TextArea from '../../components/text-area/text-area';
 import NoteCard from '../../iterables/note/note';
+import Autocomplete from '../autocomplete/autocomplete';
+import Contact from '../../iterables/contact/contact';
+import DropDown from '../../components/drop-down/drop-down';
 
 export let noteForm = ({
     newNote,
+    noteChange,
     notesOn,
     notesOff,
     notes,
+    companyId,
+    contactClick,
+    results,
+    submitNote,
 }) => 
     <div style={ container } >
         <Title text="Notes" />
@@ -43,10 +53,52 @@ export let noteForm = ({
                     />
                 </div>
                 <div style={ input }>
-                    <TextArea label="New Note" />
+                    <DropDown options={[
+                            { value: 'General', text: 'General'},
+                            { value: 'Phone', text: 'Phone' },
+                            { value: 'Email', text: 'Email' },
+                        ]}
+                        label="Type of Note/Contact"
+                        value={ newNote.type }
+                        onChange={ noteChange('type') }
+                    />
+                </div>
+                {
+                    newNote.type !== 'General' &&
+                    <div style={ input }>
+                        <Autocomplete label="Search Contacts"
+                            placeholder="Name, phone, or email"
+                            resultOnClick={ contactClick }
+                            fetchRequest={ getContactsSearch(companyId) }
+                            mapCallBack={ result => ({
+                                    result: result,
+                                    text: result.name,
+                                })
+                            }
+                        /> 
+                    </div>
+                }
+                {
+                    results.map((contact, i) =>
+                        <div key={ i }
+                            style={ input }
+                        >
+                            <Contact contact={ contact }
+                                id={ i }
+                            />
+                        </div>
+                    )
+                }
+                <div style={ input }>
+                    <TextArea label="New Note" 
+                        value={ newNote.note }
+                        onChange={ noteChange('note') }
+                    />
                 </div>
                 <div style={ input }>
-                    <Button text="Submit Note" />
+                    <Button text="Submit Note" 
+                        onClick={ submitNote }
+                    />
                 </div>
             </div>
         }
@@ -65,6 +117,7 @@ export let noteForm = ({
 export let enhance = compose(
     withState('newNote', 'updateNote', false),
     withState('notes', 'notesUpdate', []),
+    withState('results', 'updateResults', []),
     withHandlers({
         notesOn: ({
             updateNote,
@@ -73,15 +126,52 @@ export let enhance = compose(
         }) => () => {
             updateNote({
                 note: '',
-                type: 'general',
-                company: companyId,
-                contact: null,
+                type: 'General',
+                companyId: companyId,
+                contactId: null,
             })
         },
         notesOff: ({
             updateNote
         }) => () => {
             updateNote(false)
+        },
+        noteChange: ({
+            newNote,
+            updateNote,
+        }) => category => event => {
+            let note = {
+                ...newNote,
+                [category]: event.target.value
+            }
+            updateNote(note);
+        },
+        contactClick: ({
+            updateResults,
+            updateNote,
+            newNote,
+        }) => (result) => {
+            let note = {
+                ...newNote,
+                contactId: result.result.id
+            }
+            updateNote(note);
+            updateResults([result.result]);
+        },
+        submitNote: ({
+            newNote,
+            notesUpdate,
+            updateNote,
+            updateResults,
+        }) => async () => {
+            let note = {
+                ...newNote,
+                timestamp: new Date()
+            }
+            let updatedNotes = await postNote(note);
+            notesUpdate(updatedNotes);
+            updateNote(false);
+            updateResults([]);
         },
     }),
     lifecycle({
