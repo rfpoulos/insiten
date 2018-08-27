@@ -48,7 +48,7 @@ export let noteForm = ({
             newNote &&
             <div style={ noteStyle } >
                 <div style={ input }>
-                    <Button text="Cancel Note"
+                    <Button text="Cancel"
                         onClick={ notesOff }
                     />
                 </div>
@@ -57,6 +57,7 @@ export let noteForm = ({
                             { value: 'General', text: 'General'},
                             { value: 'Phone', text: 'Phone' },
                             { value: 'Email', text: 'Email' },
+                            { value: 'Live', text: 'Live'}
                         ]}
                         label="Type of Note/Contact"
                         value={ newNote.type }
@@ -96,7 +97,7 @@ export let noteForm = ({
                     />
                 </div>
                 <div style={ input }>
-                    <Button text="Submit Note" 
+                    <Button text="Submit" 
                         onClick={ submitNote }
                     />
                 </div>

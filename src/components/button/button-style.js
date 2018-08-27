@@ -11,6 +11,6 @@ export let button = ({
 	padding: '6px 24px',
 	textDecoration: 'none',
     textShadow: '0px 1px 0px #ffffff',
-    width: '12rem',
+    width: '8rem',
     height: '2rem',
 })
